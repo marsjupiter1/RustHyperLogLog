@@ -3,8 +3,8 @@ mod random_set;
 
 
 // how many numbers to place in the bitmap and how many will be different
-const SAMPLESIZE: u32=300;
-const UNIQUES: u32=100;
+const SAMPLESIZE: u32=3000;
+const UNIQUES: u32=1000;
 // the dataset we create will be keyed into buckets on this
 // number of bits, so will be 2^BITS long
 // a smaller number of bits will be less accurate
@@ -27,9 +27,9 @@ fn main()
    {
       log1.add_datum(set1.get_element(i));
    }
-   let  c = log1.estimate_cardinality();
+   let  c1 = log1.estimate_cardinality();
 
-   println!("Sample {} Unique {} Estimated Unique {}", SAMPLESIZE + UNIQUES, UNIQUES, c);
+   println!("Sample {} Unique {} Estimated Unique {}", SAMPLESIZE + UNIQUES, UNIQUES, c1);
 
    let  mut log2 = hyper_log_log::init(BITS);
    for i  in 0..SAMPLESIZE + UNIQUES
@@ -37,15 +37,15 @@ fn main()
       log2.add_datum(set2.get_element(i));
    }
  
-   let c = log2.estimate_cardinality();
+   let c2 = log2.estimate_cardinality();
 
-   println!("Sample {} Unique {} Estimated Unique {}", SAMPLESIZE + UNIQUES, UNIQUES, c);
+   println!("Sample {} Unique {} Estimated Unique {}", SAMPLESIZE + UNIQUES, UNIQUES, c2);
 
    let  log3 = log1.set_union(log2);
 
-   let c = log3.estimate_cardinality();
+   let c3 = log3.estimate_cardinality();
 
-   println!("Union Estimated Unique {}", c);
+   println!("Union Estimated Unique {}", c3);
 
   
 }
